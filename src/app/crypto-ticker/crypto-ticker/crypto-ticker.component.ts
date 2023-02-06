@@ -16,7 +16,6 @@ export class CryptoTickerComponent implements OnInit {
   ngAfterViewInit() {
     this.socket$.subscribe(
       (event) => {
-        // console.log(event);
         Object.assign(this.prices, event);
         console.log(this.prices);
 
@@ -29,7 +28,6 @@ export class CryptoTickerComponent implements OnInit {
 
 
   ngOnInit() {
-
     // const assets = 'bitcoin,ethereum,litecoin';
     // const ws = new WebSocket(`wss://ws.coincap.io/prices?assets=${assets}`);
     const ws = new WebSocket(`wss://ws.coincap.io/prices?assets=ALL`);

@@ -1,0 +1,43 @@
+.stock-ticker-container {
+    overflow: hidden;
+    width: 100%;
+}
+
+.stock-ticker {
+    display: flex;
+    white-space: nowrap;
+    // this needs to be infinate not reset after 200s
+    animation-name: stock-ticker-animation;
+    animation-duration: 100s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: normal;
+}
+
+.stock-name {
+    font-weight: bold;
+}
+
+.stock-price {
+    margin-left: 5px;
+}
+
+.stock-item {
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+
+    &:not(:first-child) {
+        margin-left: 10px;
+    }
+}
+
+@keyframes stock-ticker-animation {
+    from {
+        transform: translateX(100%);
+    }
+
+    to {
+        transform: translateX(-100%);
+    }
+}

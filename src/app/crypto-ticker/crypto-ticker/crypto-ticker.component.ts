@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Subject } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Observable, timer } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-crypto-ticker',
@@ -8,37 +10,36 @@ import { Subject } from 'rxjs';
 })
 export class CryptoTickerComponent implements OnInit {
 
-  private socket$: Subject<any> = new Subject<any>();
-  public prices: { [key: string]: number } = {};
+  public prices: { [key: string]: any } = {};
 
-  constructor() { }
-
-  ngAfterViewInit() {
-    this.socket$.subscribe(
-      (event) => {
-        Object.assign(this.prices, event);
-        console.log(this.prices);
-
-      },
-      (error) => {
-        console.error(error);
-      }
-    );
-  }
-
+  constructor(private http: HttpClient) { }
 
   ngOnInit() {
-    // const assets = 'bitcoin,ethereum,litecoin';
-    // const ws = new WebSocket(`wss://ws.coincap.io/prices?assets=${assets}`);
-    const ws = new WebSocket(`wss://ws.coincap.io/prices?assets=ALL`);
-
-    ws.onmessage = (event) => {
-      this.socket$.next(JSON.parse(event.data));
-    };
-
-    ws.onerror = (event) => {
-      this.socket$.error(event);
-    };
+    this.getData().subscribe((data) => {
+      console.log(data);
+      for (const coin of data) {
+        if (!this.prices[coin.id]) {
+          this.prices[coin.id] = {
+            symbol: coin.symbol,
+            price: coin.priceUsd,
+            change: 0
+          };
+        } else {
+          this.prices[coin.id].change = +coin.priceUsd - +this.prices[coin.id].price;
+          this.prices[coin.id].price = +coin.priceUsd;
+        }
+      }
+      console.log(this.prices);
+    });
   }
 
+  private getData(): Observable<any> {
+    return timer(0, 5000).pipe(
+      switchMap(() => {
+        return this.http.get('https://api.coincap.io/v2/assets?ids=bitcoin,ethereum,cardano,dogecoin');
+      }),
+      map((res) => res['data'])
+    );
+  }
 }
+

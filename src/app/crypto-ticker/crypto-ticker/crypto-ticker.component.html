@@ -1,20 +1,11 @@
 <p>crypto-ticker works!</p>
-<!-- <p>stock-ticker works!</p>
-<div class="stock-ticker">
-    <div *ngFor="let currency of prices | keyvalue">
-        <div class="stock-item">
-            <span class="stock-name">{{currency.key}}</span>
-            <span class="stock-price">{{ currency.value }}</span>
-        </div>
-    </div>
-
-</div> -->
-
 <div class="stock-ticker-container">
     <div class="stock-ticker">
-        <div class="stock-item" *ngFor="let currency of prices | keyvalue">
-            <span class="stock-name">{{currency.key}}</span>
-            <span class="stock-price">{{ currency.value }}</span>
+        <div class="stock-item" *ngFor="let price of prices | keyvalue">
+            <span class="stock-name">{{ price.value.symbol }}</span>
+            <span [ngClass]="price.value.change >= 0 ? 'green' : 'red'">${{ price.value.price |
+                number:
+                '1.2-2' }}</span>
         </div>
     </div>
 </div>

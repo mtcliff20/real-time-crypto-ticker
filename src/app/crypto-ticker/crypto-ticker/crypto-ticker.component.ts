@@ -15,6 +15,19 @@ export class CryptoTickerComponent implements OnInit {
   constructor(private http: HttpClient) { }
 
   ngOnInit() {
+
+    // Not sure what to use yet?
+    //  private socket$: Subject<any> = new Subject<any>();
+    // const assets = 'bitcoin,ethereum,litecoin';
+    // const ws = new WebSocket(`wss://ws.coincap.io/prices?assets=${assets}`);
+    // ws.onmessage = (event) => {
+    //   this.socket$.next(JSON.parse(event.data));
+    // };
+
+    // ws.onerror = (event) => {
+    //   this.socket$.error(event);
+    // };
+
     this.getData().subscribe((data) => {
       console.log(data);
       for (const coin of data) {

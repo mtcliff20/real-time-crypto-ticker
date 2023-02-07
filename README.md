@@ -1,4 +1,5 @@
 # RealTimeCryptoTicker
+# Rethinking this to use a rest API
 # Angular WebSockets Live Price Tracker
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.17.

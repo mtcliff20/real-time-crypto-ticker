@@ -15,18 +15,18 @@ export class CryptoTickerComponent implements OnInit {
   constructor(private http: HttpClient) { }
 
   ngOnInit() {
+    // Thinking i should use Coinbase API 
+    // not sure if i am being limited with calls?
+    // Need to look into that i think it is free but you need a coinbase account
 
-    // Not sure what to use yet?
-    //  private socket$: Subject<any> = new Subject<any>();
-    // const assets = 'bitcoin,ethereum,litecoin';
-    // const ws = new WebSocket(`wss://ws.coincap.io/prices?assets=${assets}`);
-    // ws.onmessage = (event) => {
-    //   this.socket$.next(JSON.parse(event.data));
-    // };
 
-    // ws.onerror = (event) => {
-    //   this.socket$.error(event);
-    // };
+    // TODO:
+    // -Look into conventions around rounding crypto
+    // -Add a date to the page
+    // -Much better styling
+    // -Should i code a way to add more stocks? Or to start with these (bitcoin,ethereum,cardano,dogecoin) 
+    // and have a drop down to add more to the api request?
+    // -Make it responsive down to iphone SE
 
     this.getData().subscribe((data) => {
       console.log(data);
@@ -47,7 +47,7 @@ export class CryptoTickerComponent implements OnInit {
   }
 
   private getData(): Observable<any> {
-    return timer(0, 5000).pipe(
+    return timer(0, 10000).pipe(
       switchMap(() => {
         return this.http.get('https://api.coincap.io/v2/assets?ids=bitcoin,ethereum,cardano,dogecoin');
       }),
